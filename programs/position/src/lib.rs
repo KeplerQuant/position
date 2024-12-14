@@ -2,9 +2,9 @@ pub mod errors;
 
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
-use whirlpool_cpi::{self, state::*};
+use whirlpool_cpi::state::*;
 
-declare_id!("KmEz82PFdFmBxUYSatKKggE64MVWrzXK26K7utCgndz");
+declare_id!("31PbkaTmZJeRzoNXfXTgCRTjJKbLXm23ASXeorbPCY5G");
 
 #[program]
 pub mod position {

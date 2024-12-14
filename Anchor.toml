@@ -5,11 +5,11 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-position = "KmEz82PFdFmBxUYSatKKggE64MVWrzXK26K7utCgndz"
+position = "31PbkaTmZJeRzoNXfXTgCRTjJKbLXm23ASXeorbPCY5G"
 
 [registry]
 url = "https://api.apr.dev"
 
 [provider]
-cluster = "devnet"
+cluster = "Devnet"
 wallet = "~/.config/solana/id.json"
