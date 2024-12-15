@@ -1,11 +1,13 @@
 [toolchain]
+anchor_version = "0.30.1"
+solana_version = "1.18.17"
 
 [features]
 resolution = true
 skip-lint = false
 
 [programs.devnet]
-position = "31PbkaTmZJeRzoNXfXTgCRTjJKbLXm23ASXeorbPCY5G"
+position = "4ggo2P6cy3xJPCV245b9dDPtXWge9vLJsENhd1rSvmfn"
 
 [registry]
 url = "https://api.apr.dev"

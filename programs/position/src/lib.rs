@@ -2,7 +2,7 @@ pub mod errors;
 
 use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
-use whirlpool_cpi::state::*;
+use whirlpool_cpi::{program::Whirlpool, state::Position};
 
 declare_id!("31PbkaTmZJeRzoNXfXTgCRTjJKbLXm23ASXeorbPCY5G");
 
@@ -34,7 +34,7 @@ pub mod position {
 
 #[derive(Accounts)]
 pub struct Reposition<'info> {
-    pub whirlpool_program: Program<'info, whirlpool_cpi::program::Whirlpool>,
+    pub whirlpool_program: Program<'info, Whirlpool>,
 
     pub position_authority: Signer<'info>,
 
