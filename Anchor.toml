@@ -7,7 +7,7 @@ resolution = true
 skip-lint = false
 
 [programs.devnet]
-position = "4ggo2P6cy3xJPCV245b9dDPtXWge9vLJsENhd1rSvmfn"
+position = "9bdivfCHwEDLaEgfS4YXinmYaXL6GraqVxUqjuKvXhCk"
 
 [registry]
 url = "https://api.apr.dev"

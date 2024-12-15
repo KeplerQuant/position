@@ -4,7 +4,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount};
 use whirlpool_cpi::{program::Whirlpool, state::Position};
 
-declare_id!("31PbkaTmZJeRzoNXfXTgCRTjJKbLXm23ASXeorbPCY5G");
+declare_id!("9bdivfCHwEDLaEgfS4YXinmYaXL6GraqVxUqjuKvXhCk");
 
 #[program]
 pub mod position {
