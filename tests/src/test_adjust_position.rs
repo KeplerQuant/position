@@ -8,8 +8,8 @@ use anchor_client::{
 };
 
 #[test]
-fn test_initialize() {
-    let program_id = "2wT5QzaT2G5N6iSpamJaqFy8N1cxv3HrBaeC7rm2mJ6F";
+fn test_adjust_position() {
+    let program_id = "EvvVHCu51jPjxJv7nHipFcWkCL3PxL22rbGg4B7BYayu";
     let anchor_wallet = std::env::var("ANCHOR_WALLET").unwrap();
     let payer = read_keypair_file(&anchor_wallet).unwrap();
 
