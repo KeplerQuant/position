@@ -1,5 +1,8 @@
 use anchor_lang::prelude::*;
-use anchor_spl::token::{self, Mint, Token, TokenAccount};
+use anchor_spl::{
+    token::{self, Token, TokenAccount},
+    token_2022::spl_token_2022,
+};
 use whirlpool_cpi::{program::Whirlpool as WhirlpoolProgram, state::Position};
 
 #[derive(Accounts)]
@@ -16,7 +19,7 @@ pub struct AdjustPosition<'info> {
     pub position: Account<'info, Position>,
 
     #[account(mut, address = position.position_mint)]
-    pub position_mint: Account<'info, Mint>,
+    pub position_mint: UncheckedAccount<'info>,
 
     #[account(mut,
         constraint = position_token_account.amount == 1,
@@ -28,6 +31,10 @@ pub struct AdjustPosition<'info> {
 }
 
 pub fn handler(ctx: Context<AdjustPosition>) -> Result<()> {
+    if ctx.accounts.position_mint.owner != &spl_token_2022::ID {
+        return Err(ProgramError::IncorrectProgramId.into());
+    }
+
     let cpi_program = ctx.accounts.whirlpool_program.to_account_info();
 
     let cpi_accounts = whirlpool_cpi::cpi::accounts::ClosePosition {
