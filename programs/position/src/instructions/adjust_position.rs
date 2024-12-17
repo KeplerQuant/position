@@ -41,7 +41,6 @@ pub fn handler(ctx: Context<AdjustPosition>) -> Result<()> {
 
     let cpi_ctx = CpiContext::new(cpi_program, cpi_accounts);
 
-    // execute CPI
     msg!("CPI: whirlpool close_position instruction");
     whirlpool_cpi::cpi::close_position(cpi_ctx)?;
 
