@@ -1,7 +1,6 @@
 [workspace]
 members = [
     "programs/*",
-    "whirlpool-cpi",
     "tests",
 ]
 resolver = "2"

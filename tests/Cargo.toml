@@ -7,7 +7,7 @@ edition = "2021"
 [dependencies]
 anchor-client = "=0.30.1"
 anchor-spl = "=0.30.1"
-position = { path = "../programs/position" }
-whirlpool-cpi = { path = "../whirlpool-cpi" }
 orca_whirlpools_client = "1.0.0"
 spl-associated-token-account = { version = "^3.0" }
+whirlpool-cpi = { git = "https://github.com/orca-so/whirlpool-cpi.git", branch = "anchor/0.30.1" }
+position = { path = "../programs/position" }
