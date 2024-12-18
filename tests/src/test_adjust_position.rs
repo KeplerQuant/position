@@ -12,7 +12,7 @@ use spl_associated_token_account::get_associated_token_address_with_program_id;
 
 #[test]
 fn test_adjust_position() {
-    let program_id = "5MCHiVtTNpdfkqTT6FwK1pnUCfvaLqK73Qwqb9xHpDvG";
+    let program_id = "Dk1TMwYtjVEEZsovJrtun34hae6Vw1mqhFMjgZ8zkmQ7";
     let anchor_wallet = std::env::var("ANCHOR_WALLET").unwrap();
     let payer = read_keypair_file(&anchor_wallet).unwrap();
 

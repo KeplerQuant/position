@@ -4,7 +4,7 @@ pub mod instructions;
 use anchor_lang::prelude::*;
 use instructions::*;
 
-declare_id!("5MCHiVtTNpdfkqTT6FwK1pnUCfvaLqK73Qwqb9xHpDvG");
+declare_id!("Dk1TMwYtjVEEZsovJrtun34hae6Vw1mqhFMjgZ8zkmQ7");
 
 #[program]
 pub mod position {
