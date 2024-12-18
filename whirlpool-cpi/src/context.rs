@@ -1,5 +1,9 @@
 use anchor_lang::prelude::*;
 use anchor_lang::solana_program::pubkey;
+use anchor_spl::{
+    token_2022::{self, Token2022},
+    token_interface::{Mint, TokenAccount},
+};
 
 use crate::state::*;
 
@@ -583,6 +587,34 @@ pub struct UpdateFeesAndRewards<'info> {
 ////////////////////////////////////////////////////////////////////////////////
 // V2 Context
 ////////////////////////////////////////////////////////////////////////////////
+#[derive(Accounts)]
+pub struct ClosePositionWithTokenExtensions<'info> {
+    pub position_authority: Signer<'info>,
+
+    /// CHECK: safe, for receiving rent only
+    #[account(mut)]
+    pub receiver: UncheckedAccount<'info>,
+
+    #[account(mut,
+        close = receiver,
+        seeds = [b"position".as_ref(), position_mint.key().as_ref()],
+        bump,
+    )]
+    pub position: Account<'info, Position>,
+
+    #[account(mut, address = position.position_mint, owner = token_2022_program.key())]
+    pub position_mint: InterfaceAccount<'info, Mint>,
+
+    #[account(mut,
+        constraint = position_token_account.amount == 1,
+        constraint = position_token_account.mint == position.position_mint
+    )]
+    pub position_token_account: InterfaceAccount<'info, TokenAccount>,
+
+    #[account(address = token_2022::ID)]
+    pub token_2022_program: Program<'info, Token2022>,
+}
+
 #[derive(Accounts)]
 pub struct CollectFeesV2<'info> {
     pub whirlpool: Account<'info, AccountPlaceholder>,

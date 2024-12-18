@@ -1,7 +1,7 @@
 use anchor_lang::prelude::*;
 use anchor_spl::{
-    token::{self, Token, TokenAccount},
-    token_2022::spl_token_2022,
+    token_2022::{self, Token2022},
+    token_interface::{Mint, TokenAccount},
 };
 use whirlpool_cpi::{program::Whirlpool as WhirlpoolProgram, state::Position};
 
@@ -11,46 +11,46 @@ pub struct AdjustPosition<'info> {
 
     pub position_authority: Signer<'info>,
 
-    /// CHECK: safe (the account to receive the remaining balance of the closed account)
+    /// CHECK: safe, for receiving rent only
     #[account(mut)]
     pub receiver: UncheckedAccount<'info>,
 
-    #[account(mut)]
+    #[account(mut,
+        close = receiver,
+        seeds = [b"position".as_ref(), position_mint.key().as_ref()],
+        bump,
+    )]
     pub position: Account<'info, Position>,
 
-    /// CHECK:` doc comment explaining
-    #[account(mut, address = position.position_mint)]
-    pub position_mint: UncheckedAccount<'info>,
+    #[account(mut, address = position.position_mint, owner = token_2022_program.key())]
+    pub position_mint: InterfaceAccount<'info, Mint>,
 
     #[account(mut,
         constraint = position_token_account.amount == 1,
-        constraint = position_token_account.mint == position.position_mint)]
-    pub position_token_account: Box<Account<'info, TokenAccount>>,
+        constraint = position_token_account.mint == position.position_mint
+    )]
+    pub position_token_account: InterfaceAccount<'info, TokenAccount>,
 
-    #[account(address = token::ID)]
-    pub token_program: Program<'info, Token>,
+    #[account(address = token_2022::ID)]
+    pub token_2022_program: Program<'info, Token2022>,
 }
 
 pub fn handler(ctx: Context<AdjustPosition>) -> Result<()> {
-    if ctx.accounts.position_mint.owner != &spl_token_2022::ID {
-        return Err(ProgramError::IncorrectProgramId.into());
-    }
-
     let cpi_program = ctx.accounts.whirlpool_program.to_account_info();
 
-    let cpi_accounts = whirlpool_cpi::cpi::accounts::ClosePosition {
+    let cpi_accounts = whirlpool_cpi::cpi::accounts::ClosePositionWithTokenExtensions {
         position_authority: ctx.accounts.position_authority.to_account_info(),
         receiver: ctx.accounts.receiver.to_account_info(),
         position: ctx.accounts.position.to_account_info(),
         position_mint: ctx.accounts.position_mint.to_account_info(),
         position_token_account: ctx.accounts.position_token_account.to_account_info(),
-        token_program: ctx.accounts.token_program.to_account_info(),
+        token_2022_program: ctx.accounts.token_2022_program.to_account_info(),
     };
 
     let cpi_ctx = CpiContext::new(cpi_program.clone(), cpi_accounts);
 
-    msg!("CPI: whirlpool close_position instruction");
-    whirlpool_cpi::cpi::close_position(cpi_ctx)?;
+    msg!("CPI: whirlpool close_position_with_token_extensions instruction");
+    whirlpool_cpi::cpi::close_position_with_token_extensions(cpi_ctx)?;
 
     Ok(())
 }

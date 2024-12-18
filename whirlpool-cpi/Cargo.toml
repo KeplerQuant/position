@@ -20,6 +20,7 @@ cpi = ["no-entrypoint"]
 
 [dependencies]
 anchor-lang = "=0.30.1"
+anchor-spl = "=0.30.1"
 
 # unpack TickArray
 bincode = "1"

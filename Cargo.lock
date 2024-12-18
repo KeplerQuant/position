@@ -5321,6 +5321,7 @@ name = "whirlpool-cpi"
 version = "0.1.2"
 dependencies = [
  "anchor-lang",
+ "anchor-spl",
  "bincode",
  "default-boxed",
 ]
