@@ -18,6 +18,7 @@ pub struct AdjustPosition<'info> {
     #[account(mut)]
     pub position: Account<'info, Position>,
 
+    /// CHECK:` doc comment explaining
     #[account(mut, address = position.position_mint)]
     pub position_mint: UncheckedAccount<'info>,
 
