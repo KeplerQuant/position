@@ -15,11 +15,7 @@ pub struct AdjustPosition<'info> {
     #[account(mut)]
     pub receiver: UncheckedAccount<'info>,
 
-    #[account(mut,
-        close = receiver,
-        seeds = [b"position".as_ref(), position_mint.key().as_ref()],
-        bump,
-    )]
+    #[account(mut)]
     pub position: Account<'info, Position>,
 
     #[account(mut, address = position.position_mint, owner = token_2022_program.key())]
