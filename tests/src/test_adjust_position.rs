@@ -6,8 +6,6 @@ use anchor_client::{
     },
     Client, Cluster,
 };
-use anchor_spl::token_2022::spl_token_2022;
-use orca_whirlpools_client::get_position_address;
 use spl_associated_token_account::get_associated_token_address_with_program_id;
 
 #[test]
@@ -21,7 +19,6 @@ fn test_adjust_position() {
     let program = client.program(program_id).unwrap();
 
     let position_mint = Pubkey::from_str("3sMCGsHSDtihSuuQ8KxX7XrKaGYfc38WE77SELcRNAPK").unwrap();
-    let (position_pda, _) = get_position_address(&position_mint).unwrap();
     let mint_info = program.rpc().get_account(&position_mint).unwrap();
     let position_token_account = get_associated_token_address_with_program_id(
         &program.payer(),
@@ -33,15 +30,7 @@ fn test_adjust_position() {
 
     let tx = program
         .request()
-        .accounts(position::accounts::AdjustPosition {
-            whirlpool_program: whirlpool_cpi::ID,
-            position_authority: program.payer(),
-            receiver: program.payer(),
-            position: position_pda,
-            position_mint,
-            position_token_account,
-            token_2022_program: spl_token_2022::ID,
-        })
+        .accounts(position::accounts::AdjustPosition {})
         .args(position::instruction::AdjustPosition {})
         .send()
         .expect("");
