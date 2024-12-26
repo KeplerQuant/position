@@ -2695,7 +2695,7 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "280dc24453071f1b63954171985a0b0d30058d287960968b9b2aca264c8d4ee6"
 
 [[package]]
-name = "position_manager"
+name = "position"
 version = "0.1.0"
 dependencies = [
  "anchor-lang",
@@ -4730,7 +4730,7 @@ version = "0.1.0"
 dependencies = [
  "anchor-client",
  "anchor-spl",
- "position_manager",
+ "position",
  "spl-associated-token-account 3.0.4",
 ]
 
