@@ -30,8 +30,8 @@ fn test_adjust_position() {
 
     let tx = program
         .request()
-        .accounts(position::accounts::AdjustPosition {})
-        .args(position::instruction::AdjustPosition {})
+        .accounts(position_manager::accounts::AdjustPosition {})
+        .args(position_manager::instruction::AdjustPosition {})
         .send()
         .expect("");
 
