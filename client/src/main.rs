@@ -1,3 +1,8 @@
+use client::config::Settings;
+
 fn main() {
-    println!("Hello, world!");
+    let settings =
+        Settings::new("config.toml").expect("Failed to load settings from configuration file");
+
+    println!("{:#?}", settings);
 }
