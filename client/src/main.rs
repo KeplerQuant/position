@@ -1,8 +1,11 @@
-use client::config::Settings;
+use anyhow::Result;
+use client::config::Config;
 
-fn main() {
-    let settings =
-        Settings::new("config.toml").expect("Failed to load settings from configuration file");
+#[tokio::main]
+pub async fn main() -> Result<()> {
+    let settings = Config::from_path("config/config.toml")?;
 
     println!("{:#?}", settings);
+
+    Ok(())
 }
