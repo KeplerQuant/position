@@ -1,11 +1,20 @@
 use anyhow::Result;
-use client::config::Config;
+use clap::Parser;
+use client::{
+    config::Config,
+    options::{Commands, Options},
+};
 
 #[tokio::main]
 pub async fn main() -> Result<()> {
-    let settings = Config::from_path("config/config.toml")?;
+    let options = Options::parse();
+    let settings = Config::from_path(&options.config)?;
 
-    println!("{:#?}", settings);
+    match options.commands {
+        Commands::Pool { pool_id } => {
+            println!("{:#?}", &pool_id);
+        }
+    }
 
     Ok(())
 }
