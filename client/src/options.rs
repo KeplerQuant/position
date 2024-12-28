@@ -4,18 +4,33 @@ use solana_sdk::pubkey::Pubkey;
 #[derive(Parser, Debug)]
 pub struct Options {
     #[arg(
-        short,
         long,
-        default_value = "config/config.toml",
-        help = "Path to the configuration file to use"
+        default_value = "https://api.devnet.solana.com",
+        help = "Solana RPC URL"
     )]
-    pub config: String,
-    #[arg(short, long, help = "Solana RPC URL")]
-    pub rpc_url: Option<String>,
-    #[arg(short, long, help = "Solana WS URL")]
-    pub ws_url: Option<String>,
-    #[arg(short, long, help = "Path to your wallet's keypair file")]
-    pub payer_path: Option<String>,
+    pub rpc_url: String,
+
+    #[arg(
+        long,
+        default_value = "wss://api.devnet.solana.com/",
+        help = "Solana WS URL"
+    )]
+    pub ws_url: String,
+
+    #[arg(
+        long,
+        default_value = "/Users/paul/.config/solana/id.json",
+        help = "Path to your wallet's keypair file"
+    )]
+    pub payer_path: String,
+
+    #[arg(
+        long,
+        default_value = "devi51mZmdwUJGU9hjN27vEz64Gps7uUefqxg27EAtH",
+        help = "The program ID of Raydium V3 contract"
+    )]
+    pub raydium_v3_program: Pubkey,
+
     #[clap(subcommand)]
     pub commands: Commands,
 }
