@@ -17,7 +17,7 @@ pub fn main() -> Result<()> {
     let program = anchor_client.program(options.raydium_v3_program)?;
 
     match options.commands {
-        Commands::Pool { pool_id } => {
+        Commands::GetPool { pool_id } => {
             let pool_account: raydium_amm_v3::states::PoolState = program.account(pool_id)?;
             println!("{:#?}", pool_account);
         }

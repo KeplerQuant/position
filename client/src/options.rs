@@ -38,5 +38,5 @@ pub struct Options {
 #[derive(Debug, Parser)]
 pub enum Commands {
     #[command(about = "Query pool info")]
-    Pool { pool_id: Pubkey },
+    GetPool { pool_id: Pubkey },
 }
