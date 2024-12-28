@@ -10,13 +10,11 @@ pub struct Options {
         help = "Path to the configuration file to use"
     )]
     pub config: String,
-    #[arg(short, long, help = "Solana RPC URL (overrides config file)")]
+    #[arg(short, long, help = "Solana RPC URL")]
     pub rpc_url: Option<String>,
-    #[arg(
-        short,
-        long,
-        help = "Path to your wallet's keypair file (overrides config file)"
-    )]
+    #[arg(short, long, help = "Solana WS URL")]
+    pub ws_url: Option<String>,
+    #[arg(short, long, help = "Path to your wallet's keypair file")]
     pub payer_path: Option<String>,
     #[clap(subcommand)]
     pub commands: Commands,
