@@ -4,9 +4,12 @@ use anyhow::Result;
 use config::{ConfigError, File, FileFormat};
 use serde::Deserialize;
 
+use crate::options::Options;
+
 #[derive(Debug, Clone, Deserialize)]
 pub struct Config {
     pub rpc_url: String,
+    pub payer_path: String,
 }
 
 impl Config {
@@ -22,5 +25,15 @@ impl Config {
             Ok(s) => Ok(s),
             Err(e) => Err(e.into()),
         }
+    }
+
+    pub fn merge_with_options(mut self, options: &Options) -> Self {
+        if let Some(rpc_url) = &options.rpc_url {
+            self.rpc_url = rpc_url.to_owned();
+        }
+        if let Some(payer_path) = &options.payer_path {
+            self.rpc_url = payer_path.to_owned();
+        }
+        self
     }
 }
