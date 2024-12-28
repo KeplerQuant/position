@@ -39,4 +39,6 @@ pub struct Options {
 pub enum Commands {
     #[command(about = "Query pool info")]
     GetPool { pool_id: Pubkey },
+    #[command(about = "Query position info")]
+    GetPosition { position_id: Pubkey },
 }

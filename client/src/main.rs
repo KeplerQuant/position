@@ -21,6 +21,11 @@ pub fn main() -> Result<()> {
             let pool_account: raydium_amm_v3::states::PoolState = program.account(pool_id)?;
             println!("{:#?}", pool_account);
         }
+        Commands::GetPosition { position_id } => {
+            let position_account: raydium_amm_v3::states::PersonalPositionState =
+                program.account(position_id)?;
+            println!("{:#?}", position_account);
+        }
     }
 
     Ok(())
