@@ -19,7 +19,7 @@ pub struct Options {
 
     #[arg(
         long,
-        default_value = "/Users/paul/.config/solana/id.json",
+        default_value = "config/wallet.json",
         help = "Path to your wallet's keypair file"
     )]
     pub payer_path: String,
