@@ -8,9 +8,17 @@ use solana_account_decoder::{
 use solana_client::{rpc_client::RpcClient, rpc_request::TokenAccountsFilter};
 use solana_sdk::pubkey::Pubkey;
 
-use super::types::PositionNftTokenInfo;
+#[derive(Clone, Debug, PartialEq, Eq)]
+struct PositionNftTokenInfo {
+    key: Pubkey,
+    program: Pubkey,
+    position: Pubkey,
+    mint: Pubkey,
+    amount: u64,
+    decimals: u8,
+}
 
-pub fn get_nft_account_and_position_by_owner(
+fn get_nft_account_and_position_by_owner(
     client: &RpcClient,
     owner: &Pubkey,
     token_program: Pubkey,
@@ -61,7 +69,7 @@ pub fn get_nft_account_and_position_by_owner(
     Ok(position_nft_accounts)
 }
 
-pub fn get_all_nft_and_position_by_owner(
+fn get_all_nft_and_position_by_owner(
     client: &RpcClient,
     owner: &Pubkey,
     raydium_amm_v3_program: &Pubkey,

@@ -5,7 +5,7 @@ use anyhow::Result;
 use clap::Parser;
 use client::{
     options::{Commands, Options},
-    position::position::get_positions_by_owner,
+    position::get_positions_by_owner,
 };
 
 use raydium_amm_v3::states::{PersonalPositionState, PoolState};
