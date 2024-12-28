@@ -10,3 +10,6 @@ get-pool:
 
 get-position:
     cargo run -- --payer-path {{payer_path}} get-position {{position_id}}
+
+get-positions-by-owner:
+    cargo run -- --payer-path {{payer_path}} get-positions-by-owner 7AqhQyK8PFM2bCs5yYEtjKUHJkR24VoHSYZqdMXAsUr4

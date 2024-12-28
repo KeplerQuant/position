@@ -1091,6 +1091,7 @@ dependencies = [
  "position",
  "raydium-amm-v3",
  "serde",
+ "serde_json",
  "solana-account-decoder",
  "solana-client",
  "solana-sdk",

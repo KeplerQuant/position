@@ -41,4 +41,6 @@ pub enum Commands {
     GetPool { pool_id: Pubkey },
     #[command(about = "Query position info")]
     GetPosition { position_id: Pubkey },
+    #[command(about = "Query all positions belong to wallet")]
+    GetPositionsByOwner { user_wallet: Pubkey },
 }
