@@ -6,7 +6,7 @@ use raydium_clmm_cpi::{
 };
 
 #[derive(Accounts)]
-pub struct AdjustPosition<'info> {
+pub struct ClosePosition<'info> {
     pub clmm_program: Program<'info, RaydiumClmm>,
     /// The position nft owner
     #[account(mut)]
@@ -53,7 +53,7 @@ pub struct AdjustPosition<'info> {
 }
 
 pub fn handler<'a, 'b, 'c, 'info>(
-    ctx: Context<'a, 'b, 'c, 'info, AdjustPosition<'info>>,
+    ctx: Context<'a, 'b, 'c, 'info, ClosePosition<'info>>,
 ) -> Result<()> {
     let program = ctx.accounts.clmm_program.to_account_info();
     let remaining_accounts = ctx.remaining_accounts.to_vec();

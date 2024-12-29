@@ -19,7 +19,7 @@ pub fn close_position_instruction(
 
     let instructions = program
         .request()
-        .accounts(position::accounts::AdjustPosition {
+        .accounts(position::accounts::ClosePosition {
             clmm_program: raydium_amm_v3::ID,
             nft_owner: program.payer(),
             position_nft_mint: position_mint,
@@ -28,7 +28,7 @@ pub fn close_position_instruction(
             system_program: system_program::ID,
             token_program_2022: spl_token_2022::id(),
         })
-        .args(position::instruction::AdjustPosition {})
+        .args(position::instruction::ClosePosition {})
         .instructions()?;
 
     Ok(instructions)
