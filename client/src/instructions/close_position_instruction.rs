@@ -13,10 +13,12 @@ pub fn close_position_instruction(
 ) -> Result<Vec<Instruction>> {
     let position_program = client.program(position::ID)?;
 
-    let nft_ata_token_account = spl_associated_token_account::get_associated_token_address(
-        &position_program.payer(),
-        &nft_mint,
-    );
+    let nft_ata_token_account =
+        spl_associated_token_account::get_associated_token_address_with_program_id(
+            &position_program.payer(),
+            &nft_mint,
+            &spl_token_2022::ID,
+        );
     let personal_position_key = get_position_pda(&nft_mint, &raydium_amm_v3::ID);
 
     let instructions = position_program
