@@ -26,7 +26,7 @@ pub fn close_position_instruction(
             position_nft_account: nft_ata_token_account,
             personal_position: personal_position_key,
             system_program: system_program::ID,
-            token_program_2022: spl_token_2022::id(),
+            token_program: spl_token_2022::id(),
         })
         .args(position::instruction::ClosePosition {})
         .instructions()?;

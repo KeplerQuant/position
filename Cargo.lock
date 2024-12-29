@@ -3228,7 +3228,7 @@ version = "0.1.0"
 dependencies = [
  "anchor-lang",
  "anchor-spl",
- "raydium-clmm-cpi",
+ "raydium-amm-v3",
 ]
 
 [[package]]
@@ -3485,20 +3485,6 @@ dependencies = [
  "spl-memo",
  "spl-token-metadata-interface",
  "uint",
-]
-
-[[package]]
-name = "raydium-clmm-cpi"
-version = "0.1.0"
-source = "git+https://github.com/raydium-io/raydium-cpi.git?branch=anchor-0.29.0#3e853fa51fade1f51e34c64903a69e7c4129404a"
-dependencies = [
- "ahash 0.8.6",
- "anchor-lang",
- "anchor-spl",
- "num_enum 0.7.0",
- "solana-program",
- "spl-memo",
- "spl-token",
 ]
 
 [[package]]

@@ -1,55 +1,49 @@
 use anchor_lang::prelude::*;
-use anchor_spl::{token_2022::Token2022, token_interface::Mint};
-use raydium_clmm_cpi::{
-    program::RaydiumClmm,
+use anchor_spl::token_interface::{Mint, TokenAccount, TokenInterface};
+use raydium_amm_v3::{
+    program::AmmV3,
     states::{PersonalPositionState, POSITION_SEED},
 };
 
 #[derive(Accounts)]
 pub struct ClosePosition<'info> {
-    pub clmm_program: Program<'info, RaydiumClmm>,
+    pub clmm_program: Program<'info, AmmV3>,
+
     /// The position nft owner
     #[account(mut)]
     pub nft_owner: Signer<'info>,
 
-    /// Unique token mint address
+    /// Mint address bound to the personal position.
     #[account(
       mut,
       address = personal_position.nft_mint,
-      mint::token_program = token_program_2022,
+      mint::token_program = token_program,
     )]
     pub position_nft_mint: Box<InterfaceAccount<'info, Mint>>,
 
-    /// Token account where position NFT will be minted
+    /// User token account where position NFT be minted to
     #[account(
         mut,
-        associated_token::mint = position_nft_mint,
-        associated_token::authority = nft_owner,
+        token::mint = position_nft_mint,
+        token::authority = nft_owner,
         constraint = position_nft_account.amount == 1,
-        token::token_program = token_program_2022,
+        token::token_program = token_program,
     )]
-    pub position_nft_account:
-        Box<InterfaceAccount<'info, anchor_spl::token_interface::TokenAccount>>,
+    pub position_nft_account: Box<InterfaceAccount<'info, TokenAccount>>,
 
-    /// To store metaplex metadata
-    /// CHECK: Safety check performed inside function body
-    // #[account(mut)]
-    // pub metadata_account: UncheckedAccount<'info>,
-
-    /// Metadata for the tokenized position
     #[account(
         mut,
         seeds = [POSITION_SEED.as_bytes(), position_nft_mint.key().as_ref()],
-        seeds::program = clmm_program,
         bump,
         close = nft_owner
     )]
     pub personal_position: Box<Account<'info, PersonalPositionState>>,
 
-    /// Program to create the position manager state account
+    /// System program to close the position state account
     pub system_program: Program<'info, System>,
-    /// Program to create mint account and mint tokens
-    pub token_program_2022: Program<'info, Token2022>,
+
+    /// Token/Token2022 program to close token/mint account
+    pub token_program: Interface<'info, TokenInterface>,
 }
 
 pub fn handler<'a, 'b, 'c, 'info>(
@@ -58,18 +52,18 @@ pub fn handler<'a, 'b, 'c, 'info>(
     let program = ctx.accounts.clmm_program.to_account_info();
     let remaining_accounts = ctx.remaining_accounts.to_vec();
 
-    let cpi_accounts = raydium_clmm_cpi::cpi::accounts::ClosePosition {
+    let cpi_accounts = raydium_amm_v3::cpi::accounts::ClosePosition {
         nft_owner: ctx.accounts.nft_owner.to_account_info(),
         position_nft_mint: ctx.accounts.position_nft_mint.to_account_info(),
         position_nft_account: ctx.accounts.position_nft_account.to_account_info(),
         personal_position: ctx.accounts.personal_position.to_account_info(),
         system_program: ctx.accounts.system_program.to_account_info(),
-        token_program: ctx.accounts.token_program_2022.to_account_info(),
+        token_program: ctx.accounts.token_program.to_account_info(),
     };
     let cpi_context =
         CpiContext::new(program, cpi_accounts).with_remaining_accounts(remaining_accounts);
 
-    raydium_clmm_cpi::cpi::close_position(cpi_context)?;
+    raydium_amm_v3::cpi::close_position(cpi_context)?;
 
     Ok(())
 }
