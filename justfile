@@ -2,6 +2,7 @@ wallet_address := "7AqhQyK8PFM2bCs5yYEtjKUHJkR24VoHSYZqdMXAsUr4"
 payer_path := "client/config/wallet.json"
 pool_mint := "7ZU5acRDvnfRYWNUvqK3fgR7HyXnsSUDoTiBHMeWMMS1"
 position_mint := "DxJ5FYwKtoRYcRr3piDa4UCqt5XNPPALEDGXjaB1qQVp"
+nft_mint := "C8koLXqj55C5992hD8wi5s8n5vHNXNnNEpbA6kShM4zR"
 
 default:
   just --list
@@ -16,4 +17,4 @@ get-positions-by-owner:
     cargo run -- --payer-path {{payer_path}} get-positions-by-owner {{wallet_address}}
 
 close-position:
-    cargo run -- --payer-path {{payer_path}} close-position {{position_mint}}
+    cargo run -- --payer-path {{payer_path}} close-position {{nft_mint}}
