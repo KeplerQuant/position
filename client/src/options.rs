@@ -24,13 +24,6 @@ pub struct Options {
     )]
     pub payer_path: String,
 
-    #[arg(
-        long,
-        default_value = "devi51mZmdwUJGU9hjN27vEz64Gps7uUefqxg27EAtH",
-        help = "The program ID of Raydium V3 contract"
-    )]
-    pub raydium_v3_program: Pubkey,
-
     #[clap(subcommand)]
     pub commands: Commands,
 }
@@ -43,4 +36,6 @@ pub enum Commands {
     GetPosition { position_id: Pubkey },
     #[command(about = "Query all positions belong to wallet")]
     GetPositionsByOwner { user_wallet: Pubkey },
+    #[command(about = "Close Position, clean up dust from position NFT")]
+    ClosePosition { position_mint: Pubkey },
 }

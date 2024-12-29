@@ -10,7 +10,9 @@ declare_id!("GMCkSz2KK2oS7aiBMsLmHNXCoN97YriUXBy2Q1EFFVad");
 pub mod position {
     use super::*;
 
-    pub fn adjust_position(ctx: Context<AdjustPosition>) -> Result<()> {
+    pub fn adjust_position<'a, 'b, 'c, 'info>(
+        ctx: Context<'a, 'b, 'c, 'info, AdjustPosition<'info>>,
+    ) -> Result<()> {
         return instructions::adjust_position::handler(ctx);
     }
 }
