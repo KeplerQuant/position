@@ -1,6 +1,6 @@
 use std::rc::Rc;
 
-use anchor_client::Program;
+use anchor_client::Client;
 use anchor_lang::system_program;
 use anyhow::Result;
 use solana_sdk::{instruction::Instruction, pubkey::Pubkey, signature::Keypair};
@@ -8,20 +8,22 @@ use solana_sdk::{instruction::Instruction, pubkey::Pubkey, signature::Keypair};
 use crate::position::get_position_pda;
 
 pub fn close_position_instruction(
-    program: &Program<Rc<Keypair>>,
+    client: &Client<Rc<Keypair>>,
     position_mint: Pubkey,
 ) -> Result<Vec<Instruction>> {
+    let position_program = client.program(position::ID)?;
+
     let nft_ata_token_account = spl_associated_token_account::get_associated_token_address(
-        &program.payer(),
+        &position_program.payer(),
         &position_mint,
     );
     let personal_position_key = get_position_pda(&position_mint, &raydium_amm_v3::ID);
 
-    let instructions = program
+    let instructions = position_program
         .request()
         .accounts(position::accounts::ClosePosition {
             clmm_program: raydium_amm_v3::ID,
-            nft_owner: program.payer(),
+            nft_owner: position_program.payer(),
             position_nft_mint: position_mint,
             position_nft_account: nft_ata_token_account,
             personal_position: personal_position_key,

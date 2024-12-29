@@ -17,12 +17,11 @@ pub fn main() -> Result<()> {
     let options = Options::parse();
 
     let rpc_client = RpcClient::new(options.rpc_url.clone());
-    let payer = read_keypair_file(&options.payer_path).unwrap();
+    let payer = Rc::new(read_keypair_file(&options.payer_path).unwrap());
 
     let url = Cluster::Custom(options.rpc_url, options.ws_url);
-    let anchor_client = Client::new(url, Rc::new(payer));
+    let anchor_client = Client::new(url, payer.clone());
     let raydium_program = anchor_client.program(raydium_amm_v3::ID)?;
-    let position_program = anchor_client.program(position::ID)?;
 
     match options.commands {
         Commands::GetPool { pool_id } => {
@@ -40,19 +39,17 @@ pub fn main() -> Result<()> {
         }
         Commands::ClosePosition { position_mint } => {
             let instructions =
-                instructions::close_position_instruction(&position_program, position_mint)?;
+                instructions::close_position_instruction(&anchor_client, position_mint)?;
 
-            let payer = read_keypair_file(&options.payer_path).unwrap();
-            let signers = vec![&payer];
             let recent_hash = rpc_client.get_latest_blockhash()?;
-            let txn = Transaction::new_signed_with_payer(
+            let tx = Transaction::new_signed_with_payer(
                 &instructions,
                 Some(&payer.pubkey()),
-                &signers,
+                &vec![payer.as_ref()],
                 recent_hash,
             );
 
-            let ret = rpc_client.simulate_transaction(&txn)?;
+            let ret = rpc_client.simulate_transaction(&tx)?;
             println!("{:#?}", ret);
         }
     }
