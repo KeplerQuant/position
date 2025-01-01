@@ -11,21 +11,20 @@ pub fn close_position_instruction(
     client: &Client<Rc<Keypair>>,
     nft_mint: Pubkey,
 ) -> Result<Vec<Instruction>> {
-    let position_program = client.program(position::ID)?;
+    let program = client.program(raydium_amm_v3::ID)?;
 
     let nft_ata_token_account =
         spl_associated_token_account::get_associated_token_address_with_program_id(
-            &position_program.payer(),
+            &program.payer(),
             &nft_mint,
             &spl_token_2022::ID,
         );
-    let personal_position_key = get_position_pda(&nft_mint, &raydium_amm_v3::ID);
+    let personal_position_key = get_position_pda(&nft_mint, &program.id());
 
-    let instructions = position_program
+    let instructions = program
         .request()
-        .accounts(position::accounts::ClosePosition {
-            clmm_program: raydium_amm_v3::ID,
-            nft_owner: position_program.payer(),
+        .accounts(raydium_amm_v3::accounts::ClosePosition {
+            nft_owner: program.payer(),
             position_nft_mint: nft_mint,
             position_nft_account: nft_ata_token_account,
             personal_position: personal_position_key,
